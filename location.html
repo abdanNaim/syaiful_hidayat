@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oghy Wara - Lokasi</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(120deg, #f6d365, #fda085);
+        text-align: center;
+      }
+      .location {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .location h2 {
+        text-align: center;
+        color: #ff7e5f;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .location p {
+        text-align: center;
+        color: #555;
+        font-size: 16px;
+      }
+      #map {
+        width: 100%;
+        height: 500px;
+        border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      footer {
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+        color: white;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+      footer p {
+        margin: 0;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background: linear-gradient(135deg, silver, gray);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+      button:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #ff6f61, #feb47b);
+        color: white;
+      }
+      @media (max-width: 600px) {
+        .location {
+          padding: 15px;
+        }
+        .location p {
+          font-size: 14px;
+        }
+      }
+    </style>
+    
+  </head>
+  <body>
+    <section class="location">
+      <h2>Lokasi Kami</h2>
+      <p>Kunjungi kami di alamat berikut:</p>
+      <ul>
+        <li>
+          <strong>Alamat:</strong> Jl. Cakalang No.21, Benteng Sel., Kec. Benteng, Kab. Kepulauan Selayar, Sulawesi Selatan 92812
+        </li>
+      </ul>
+      <h3>Lokasi di Peta Interaktif</h3>
+      <div id="map"></div>
+      <div style="text-align: center; margin-top: 20px;">
+        <button
+          onclick="window.location.href='index.html'"
+          style="
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+          "
+          onmouseover="this.style.backgroundColor='#45a049'; this.style.transform='scale(1.05)';"
+          onmouseout="this.style.backgroundColor='#4caf50'; this.style.transform='scale(1.0)';"
+        >
+          Kembali ke Beranda
+        </button>
+      </div>
+      
+    </section>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script>
+      // Inisialisasi peta dengan koordinat Benteng
+      var map = L.map("map").setView([-6.1595, 120.4981], 14); // Koordinat Benteng
+
+      // Tambahkan tile layer (peta dasar)
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      // Ikon khusus untuk Bakulan Gunarso
+      var oghyWaraIcon = L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // URL ikon pin biru
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+      });
+
+      // Menambahkan marker untuk lokasi Bakulan Gunarso
+      var marker = L.marker([-6.122424894833849, 120.45705041180547], {
+        icon: oghyWaraIcon,
+      })
+        .addTo(map)
+        .bindPopup("<b>Bakulan Gunarso</b><br>Lokasi kami di sini.")
+        .openPopup()
+        .bindTooltip("Bakulan Gunarso", { permanent: true, direction: "top" }); // Menambahkan label di atas ikon marker
+
+      // Fungsi untuk memuat dan menambahkan GeoJSON ke peta
+      function addGeoJSON(fileName, styleOptions, onEachFeature) {
+        fetch(fileName)
+          .then((response) => response.json())
+          .then((geojsonData) => {
+            var geojsonLayer = L.geoJSON(geojsonData, {
+              pointToLayer: styleOptions.pointToLayer,
+              onEachFeature: onEachFeature,
+            }).addTo(map);
+            map.fitBounds(geojsonLayer.getBounds());
+          })
+          .catch((error) => {
+            console.error("Error memuat GeoJSON:", error);
+            alert("Gagal memuat GeoJSON.");
+          });
+      }
+
+      // Tambahkan file GeoJSON untuk masjid
+      var masjidGeoJSON = "mesjid.geojson";
+      addGeoJSON(
+        masjidGeoJSON,
+        {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, { icon: oghyWaraIcon });
+          },
+        },
+        function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup("<b>Masjid:</b> " + feature.properties.name);
+          }
+        }
+      );
+
+      // Tambahkan file GeoJSON untuk sekolah
+      var sekolahGeoJSON = "sekolah.geojson";
+      addGeoJSON(
+        sekolahGeoJSON,
+        {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, { icon: oghyWaraIcon });
+          },
+        },
+        function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup("<b>Sekolah:</b> " + feature.properties.name);
+          }
+        }
+      );
+
+      // Tambahkan file GeoJSON untuk benteng
+      var bentengGeoJSON = "kecamatanBenteng.geojson"; // Nama file
+      addGeoJSON(
+        bentengGeoJSON,
+        {
+          style: function (feature) {
+            // Warna hijau untuk peta benteng
+            return { color: "green", weight: 2, fillOpacity: 0.5 };
+          },
+        },
+        function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup(
+              "<b>Lokasi Benteng:</b> " + feature.properties.name
+            );
+          }
+        }
+      );
+
+      // Tambahkan file GeoJSON untuk jalan
+      var jalanGeoJSON = "jalanBentengAnjay.geojson"; // Nama file
+      addGeoJSON(
+        jalanGeoJSON,
+        {
+          style: function (feature) {
+            // Warna biru untuk jalan
+            return { color: "blue", weight: 3, opacity: 0.8 };
+          },
+        },
+        function (feature, layer) {
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup("<b>Nama Jalan:</b> " + feature.properties.name);
+          }
+        }
+      );
+    </script>
+  </body>
+</html>

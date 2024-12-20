@@ -1,0 +1,201 @@
+/* Tata letak umum untuk badan halaman */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Gaya Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #343a40;
+    padding: 1rem;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+}
+
+.navbar a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.navbar a.active {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Bagian Hero untuk Halaman Utama */
+.hero {
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('cafe-background.jpg') center/cover;
+    height: 400px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin: 1rem 0 0;
+    max-width: 600px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.hero .cta {
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #ff6f61;
+    color: white;
+    text-decoration: none;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero .cta:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+}
+
+/* Tata letak Menu dan item */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.menu-item {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.menu-item h3 {
+    margin: 1rem 0;
+    font-size: 1.25rem;
+}
+
+.menu-item p {
+    margin: 0;
+    color: #555;
+}
+
+/* Gaya untuk bagian Tentang */
+.about-container {
+    background-color: white;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.about-container h1 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.about-container p {
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+}
+
+/* Gaya untuk bagian Kontak */
+.contact-info {
+    background-color: white;
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+/* Padding untuk konten umum */
+.content {
+    padding: 2rem;
+}
+
+/* Kelas tersembunyi untuk bagian */
+.hidden {
+    display: none;
+}
+
+/* Gaya untuk bagian Peta pada halaman kontak */
+.map-container {
+    margin: 2rem auto;
+    max-width: 600px; /* Mengatur lebar maksimum */
+    width: 80%; /* Mengurangi lebar peta */
+    height: 300px; /* Mengurangi tinggi peta */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px; /* Opsional: Untuk sudut melengkung */
+}
+
+/* Gaya Footer */
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
